@@ -1,3 +1,33 @@
+# Rust build artifacts
 /target
+**/*.rs.bk
+*.pdb
+
+# Cargo lock file (for libraries - remove this line for applications)
+# Cargo.lock
+
+# Environment variables
 .env
-.idea
+.env.local
+.env.*.local
+
+# IDE/Editor files
+#.idea/          # IntelliJ/RustRover
+.vscode/        # VS Code
+*.swp           # Vim
+*.swo
+*~
+.DS_Store       # macOS
+
+# Database files (if using SQLite locally)
+*.db
+*.sqlite
+*.sqlite3
+
+# Test coverage
+tarpaulin-report.html
+cobertura.xml
+
+# Backup files
+*.bak
+*.backup
