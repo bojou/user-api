@@ -1,0 +1,5 @@
+[debug]
+log_level = "normal"
+
+[release]
+log_level = "critical"
