@@ -1,9 +1,9 @@
 use chrono::{DateTime, Utc};
 use rocket::serde::{Deserialize, Serialize};
-use sqlx::PgPool;
+use sqlx::{FromRow, PgPool};
 use std::error::Error;
 
-#[derive(Deserialize, Serialize, Debug, Default)]
+#[derive(Deserialize, Serialize, Debug, Default, FromRow)]
 #[serde(crate = "rocket::serde")]
 pub(crate) struct User {
     pub(crate) email: String,
@@ -28,4 +28,14 @@ pub(crate) async fn upsert(pool: &PgPool, user: &User) -> Result<(), Box<dyn Err
         .execute(pool)
         .await?;
     Ok(())
+}
+
+pub(crate) async fn find_by_email(pool: &PgPool, email: &String) -> Result<User, Box<dyn Error>> {
+    let query = "SELECT email, username, password_hash, created_at FROM users WHERE email = $1";
+    let user = sqlx::query_as::<_, User>(query)
+        .bind(email)
+        .fetch_one(pool)
+        .await?;
+    dbg!(&user);
+    Ok(user)
 }

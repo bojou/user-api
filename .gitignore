@@ -12,7 +12,7 @@
 .env.*.local
 
 # IDE/Editor files
-#.idea/          # IntelliJ/RustRover
+.idea/          # IntelliJ/RustRover
 .vscode/        # VS Code
 *.swp           # Vim
 *.swo
