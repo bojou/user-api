@@ -1,6 +1,6 @@
+use rocket::Request;
 use rocket::http::Status;
 use rocket::response::{self, Responder, Response};
-use rocket::Request;
 use std::io::Cursor;
 
 pub struct ExceptionHandler {
@@ -24,6 +24,10 @@ impl ExceptionHandler {
         Self::new(Status::BadRequest, message)
     }
 
+    pub fn not_found(message: impl Into<String>) -> Self {
+        Self::new(Status::NotFound, message)
+    }
+
     pub fn internal_error(message: impl Into<String>) -> Self {
         Self::new(Status::InternalServerError, message)
     }
@@ -33,8 +37,12 @@ impl ExceptionHandler {
 
         if error_msg.contains("duplicate key") || error_msg.contains("unique constraint") {
             Self::conflict("Resource already exists")
-        } else if error_msg.contains("not-null constraint") || error_msg.contains("check constraint") {
+        } else if error_msg.contains("not-null constraint")
+            || error_msg.contains("check constraint")
+        {
             Self::bad_request(format!("Invalid data: {}", error))
+        } else if error_msg.contains("no rows returned") {
+            Self::not_found(format!("Not found: {}", error))
         } else {
             Self::internal_error("Database error occurred")
         }

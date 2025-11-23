@@ -36,6 +36,5 @@ pub(crate) async fn find_by_email(pool: &PgPool, email: &String) -> Result<User,
         .bind(email)
         .fetch_one(pool)
         .await?;
-    dbg!(&user);
     Ok(user)
 }
