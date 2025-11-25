@@ -13,6 +13,7 @@
 
 # IDE/Editor files
 .idea/          # IntelliJ/RustRover
+.idea
 .vscode/        # VS Code
 *.swp           # Vim
 *.swo
